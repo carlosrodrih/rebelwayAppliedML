@@ -1,0 +1,19 @@
+{
+    "Books": {
+        "IDIMIJ": {
+            "name": "Dune",
+            "type": "SciFi",
+            "stock": 3
+        },
+        "LYRZDK": {
+            "name": "The Hobbit",
+            "type": "Fantasy",
+            "stock": 2
+        },
+        "YRZLDK": {
+            "name": "1984",
+            "type": "Drama",
+            "stock": 0
+        }
+    }
+}
