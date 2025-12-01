@@ -1,4 +1,5 @@
 # Week 2 – A* Algorithm Assignment
+![HDA Demo](./hda_demo.png)
 
 This branch focuses exclusively on the **A\*** Houdini Digital Asset (HDA), expanded with new functionality as part of the Week 2 assignment.
 
