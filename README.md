@@ -1,18 +1,18 @@
-# Week 2 - A* Algorithm and Data Extraction
+# Week 2 – A* Algorithm Assignment
 
-This branch contains several **Houdini HIP files** and a custom **Houdini Digital Asset (HDA)** implementing the **A\*** pathfinding algorithm. The goal of this week is to understand how to compute paths procedurally and how to work with data inside Houdini.
+This branch focuses exclusively on the **A\*** Houdini Digital Asset (HDA), expanded with new functionality as part of the Week 2 assignment.
 
-## A* Pathfinding HDA
-The A* tool demonstrates how to compute optimal paths on a grid or mesh using a heuristic-driven search.
+## Assignment Overview
+The goal of this week was to extend the A\* tool and introduce more advanced behavior inside Houdini. The updates include:
 
-### Features
-- Calculates shortest paths using the A* algorithm  
-- Visualizes the resulting path  
+### ✔ Multiple Starting Points
+The algorithm now supports **several starting positions** instead of just one.  
+In the context of the HDA, each starting point represents an **NPC**, all navigating independently toward the same target (Main).
 
-Useful for procedural motion planning, crowd steering, and tool development inside Houdini.
+### ✔ Step-by-Step Visualization
+A new **step slider** was added to visualize the progress of the pathfinding process.  
+This allows you to:
+- Observe the A\* search expanding through the grid  
+- See each NPC follow its calculated shortest path  
+- Scrub through the algorithm frame-by-frame for debugging or teaching purposes  
 
-## Data Extraction Exercise
-This branch also includes a simple exercise on **data import and export in Houdini**, covering:
-- Exporting attributes or point data to external files  
-- Importing data back into Houdini for processing  
-- Understanding how to structure and clean data for procedural workflows  

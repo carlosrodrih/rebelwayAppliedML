@@ -1,6 +1,8 @@
 import hou
 import math
 import sys
+import json
+
 sys.path.append(r"D:\development\rebelwayAppliedML\a_star\scripts")
 
 from a_star import AStarPathFinding
@@ -24,8 +26,18 @@ def get_maze_from_grid():
         
     return grid_matrix
 
+def get_position_from_object(obj_path,cell_size=1):
+    obj = hou.node(obj_path)
+    tx, ty, tz = obj.parmTuple("t").eval()
+    
+    col = int(round(tx / cell_size))
+    row = int(round(tz / cell_size))
+    
+    pos = (row,col)
+    return pos
+
 def position_object(obj_path,row,col,cell_size=1):
-    main_char = hou.node(obj_path)
+    main_char = hou.node(obj_path)    
     world_x = col * cell_size
     world_z = row * cell_size
     
@@ -34,21 +46,50 @@ def position_object(obj_path,row,col,cell_size=1):
     pos = (row,col)
     return pos
     
+def get_all_npc_positions():
+    count = hou.pwd().parm('npcs').eval()
+    npcs = {}
+    
+    for i in range(1, count + 1):
+        parm = f"npc_{i}"
+        npc_path = hou.pwd().parm(parm).eval()
+        npcs[parm] = get_position_from_object(npc_path)
+    
+    return npcs
+    
 def solve_maze():
     main_char_path = hou.pwd().parm("main_char").eval()
-    npc1_char_path = hou.pwd().parm("npc_1").eval()
-    
-    start_pos = position_object(npc1_char_path,0,3)
-    target_pos = position_object(main_char_path,6,1)
-    
+    main_pos = get_position_from_object(main_char_path)
+    npcs = get_all_npc_positions()
     maze = get_maze_from_grid()
-    print("")
-    for row in maze:
-        print(row)
-    pathfinder = AStarPathFinding(maze,start_pos,target_pos)
-    path = pathfinder.find_path()
+    solutions = {}
     
-    if path:
-        print("Path found: ", path)
-    else:
-        print("No path found.")
+    for npc_name, npc_pos in npcs.items():
+        print("")
+        print(f"Solving path for {npc_name}...")
+        pathfinder = AStarPathFinding(maze,npc_pos,main_pos)
+        path = pathfinder.find_path()
+        if path:
+            print(f"{npc_name} path found: {path}")
+            solutions[npc_name] = path
+        else:
+            print(f"{npc_name} no path found.")
+            solutions[npc_name] = []
+            
+    json_str = json.dumps(solutions)
+    hou.pwd().parm("solutions").set(json_str)
+
+def update_step():
+    node = hou.pwd()
+    solutions = json.loads(node.parm("solutions").eval())
+    for npc_name, npc_path in solutions.items():
+        npc_path = solutions[npc_name]
+        step = node.parm("step").eval()
+        max_step = len(npc_path) - 1
+        step = max(0, min(step, max_step))
+        row,col = npc_path[step]
+        position_object(node.parm(npc_name).eval(), row, col)
+    
+    
+
+           
