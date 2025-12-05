@@ -1,4 +1,4 @@
-# Week 2 Assignment: Fashion Predictor HDA
+# Week 3 Assignment: Fashion Predictor HDA
 
 ![HDA Demo](hda_demo.png)
 
